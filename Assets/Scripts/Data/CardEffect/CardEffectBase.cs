@@ -36,3 +36,16 @@ public class  DrawCardEffect : CardEffectBase
         
     }
 }
+
+
+public class SearchCardEffect : CardEffectBase
+{
+    public CardPosition destination;
+    public int cardCount;
+    public string searchCondition;  // search with filter
+
+    public override void Execute()
+    {
+        Debug.Log($"Search card to {destination}");
+    }
+}

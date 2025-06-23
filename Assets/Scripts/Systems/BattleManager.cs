@@ -13,6 +13,8 @@ public class BattleManager : Singleton<BattleManager>
 
     }
 
+
+
     // Update is called once per frame
     void Update()
     {

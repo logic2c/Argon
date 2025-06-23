@@ -17,5 +17,9 @@ public class SpellCardData : CardData
 {
     public SpellType spellType;
 
+    public SpellCardData()
+    {
+        type = CardType.Spell;
+    }
 
 }

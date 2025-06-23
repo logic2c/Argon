@@ -32,16 +32,21 @@ public enum CardRace
     others,
 }
 
-
+public enum CardGroup
+{
+    BHB,
+    None
+}
 
 public abstract class CardData : ScriptableObject
 {
-    public CardType type;
+    protected CardType type;
     public CardRace race;
     public string cardName;
     public Sprite icon;
     public int cost;
     [TextArea] public string description;
+    public List<CardGroup> group;
 
     [SerializeReference]
     [SR]
