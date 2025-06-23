@@ -6,10 +6,11 @@ public class BattleManager : Singleton<BattleManager>
 {
     public BattleData battleData;
 
-    // Start is called before the first frame update
+    // Start is called before the first frame update 
     void Start()
     {
-        
+
+
     }
 
     // Update is called once per frame
@@ -17,4 +18,16 @@ public class BattleManager : Singleton<BattleManager>
     {
         
     }
+}
+
+public enum CardPosition
+{
+    Hand,
+    Deck,
+    Graveyard,
+    Field
+}
+public class  CardPositionBase
+{
+    public CardPosition type;
 }

@@ -13,13 +13,6 @@ public class Card
     }
 
 
-    public void Test()
-    {
-        foreach (var item in data.effects)
-        {
-            item.Execute();
-        }
-    }
 
 }
 

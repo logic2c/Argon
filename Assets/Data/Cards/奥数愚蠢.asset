@@ -9,20 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa95fa8e65e84194e89a70992acb61c1, type: 3}
-  m_Name: New Card Data
+  m_Script: {fileID: 11500000, guid: 9638cacbe13a5a94696e2bf3d51f7555, type: 3}
+  m_Name: "\u5965\u6570\u611A\u8822"
   m_EditorClassIdentifier: 
   type: 0
-  cardName: 
+  race: 0
+  cardName: "\u5965\u6570\u611A\u8822"
   icon: {fileID: 0}
-  cost: 0
+  cost: 1
   description: 
   effects:
-  - rid: 1164232708943511552
+  - rid: 1164232710380060674
+  spellType: 2
   references:
     version: 2
     RefIds:
-    - rid: 1164232708943511552
-      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+    - rid: 1164232710380060674
+      type: {class: DrawCardEffect, ns: , asm: Assembly-CSharp}
       data:
-        damageAmount: 39
+        drawAmount: 2

@@ -11,9 +11,33 @@ public enum CardType
     Trap
 }
 
-public class CardData : ScriptableObject
+public enum CardRace
+{
+    OldDeus,
+    Phantasma,
+    Elemental,
+    Dragonia,
+    Gigant,
+    Flugel,
+    Elf,
+    Dwarf,
+    Fairy,
+    ExMachina,
+    Demonia,
+    Dhampir,
+    Lunamana,
+    Werebeast,
+    Siren,
+    Immanity,
+    others,
+}
+
+
+
+public abstract class CardData : ScriptableObject
 {
     public CardType type;
+    public CardRace race;
     public string cardName;
     public Sprite icon;
     public int cost;
@@ -25,19 +49,7 @@ public class CardData : ScriptableObject
     //public CardEffect[] onPlayEffects;      // 发动时效果
     //public CardEffect[] onEnterBattlefield; // 进入战场时效果
     //public CardEffect[] onGraveyard;        // 进入坟场时效果
+
+
 }
 
-[CreateAssetMenu(menuName = "CardData/Monster")]
-public class MonsterCardData : CardData
-{
-    public CardType type = CardType.Monster;
-    public int range;
-    public int attack;
-    public int health;
-    public int speed;
-
-    public void Attack()
-    {
-        Debug.Log($"{cardName} attacks with {attack} damage!");
-    }
-}

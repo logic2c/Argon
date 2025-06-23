@@ -9,15 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa95fa8e65e84194e89a70992acb61c1, type: 3}
+  m_Script: {fileID: 11500000, guid: b2756e51a668a644b8496a3e5e763f33, type: 3}
   m_Name: "\u517D\u4EBAA"
   m_EditorClassIdentifier: 
   type: 0
+  race: 13
   cardName: "\u517D\u4EBAA"
   icon: {fileID: 0}
   cost: 0
   description: 
   effects: []
+  range: 1
+  attack: 4
+  health: 3
+  speed: 1
   references:
     version: 2
     RefIds: []
