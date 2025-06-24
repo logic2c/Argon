@@ -11,5 +11,13 @@ public static class EventManager
         public static UnityAction<string> OnExampleChanged; 
     }
 
+}
+public static class BattleEventManager
+{
+    public static ExampleEvents Example;
+    public struct ExampleEvents
+    {
+        public static UnityAction<string> OnExampleChanged;
+    }
 
 }

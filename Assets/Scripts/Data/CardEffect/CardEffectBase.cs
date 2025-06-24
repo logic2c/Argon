@@ -2,9 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct EffectCondition
+{
+    public CardPosition from;
+    public CardPosition to;
+    public string course;
+}
+
+
+
 [System.Serializable]
 public abstract class  CardEffectBase
 {
+    public EffectCondition condition;
     public abstract void Execute();
 }
 
@@ -17,3 +27,36 @@ public class DamageEffect : CardEffectBase
         Debug.Log($"Deal #{damageAmount} damage");
     }
 }
+
+public class  DrawCardEffect : CardEffectBase //抽卡效果
+{
+    public int drawAmount;
+    public override void Execute()
+    {
+        
+    }
+}
+
+
+public class SearchCardEffect : CardEffectBase //检索效果
+{
+    public CardPosition destination;
+    public int cardCount;
+    public string searchCondition;  // search with filter
+
+    public override void Execute()
+    {
+        Debug.Log($"Search card to {destination}");
+    }
+}
+
+public class ActivateCardEffect : CardEffectBase
+{
+    public CardPosition destination;
+    public string activateCondition;
+    public override void Execute()
+    {
+        Debug.Log($"Activate card to {destination}");
+    }
+}
+
