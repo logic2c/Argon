@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46ed3ca5464934547b9fde422d02cf12, type: 3}
+  m_Name: "\u5DEB\u5973\u7684\u773C\u955C"
+  m_EditorClassIdentifier: 
+  race: 13
+  cardName: "\u5DEB\u5973\u7684\u773C\u955C"
+  icon: {fileID: 0}
+  cost: 0
+  description: "1.\u5F53\u5BF9\u65B9\u53D1\u52A8\u9B54\u6CD5\u5361\u65F6\uFF0C\u4F7F\u5176\u65E0\u6548\u5E76\u7834\u574F"
+  group: 
+  effects: []
+  spellType: 0
+  argonRecoveramount: 0
+  references:
+    version: 2
+    RefIds: []

@@ -9,7 +9,6 @@ public enum SpellType
     Normal,
     Coninuous,
     Equip,
-    ArgonRecover,
 }
 
 [CreateAssetMenu(menuName = "CardData/Spell")]
@@ -17,9 +16,11 @@ public class SpellCardData : CardData
 {
     public SpellType spellType;
 
+    public int argonRecoveramount;
     public SpellCardData()
     {
         type = CardType.Spell;
     }
 
+    
 }

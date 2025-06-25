@@ -50,13 +50,23 @@ public class SearchCardEffect : CardEffectBase //检索效果
     }
 }
 
-public class ActivateCardEffect : CardEffectBase
+public class ActivateCardEffect : CardEffectBase //发动效果
 {
     public CardPosition destination;
     public string activateCondition;
     public override void Execute()
     {
         Debug.Log($"Activate card to {destination}");
+    }
+}
+
+public class SpecialSummonCardEffect : CardEffectBase 
+{ 
+    public CardPosition source;
+    public string specialsummonCondition;
+    public override void Execute()
+    {
+        Debug.Log($"SpecialSummon from {source} card to field");
     }
 }
 

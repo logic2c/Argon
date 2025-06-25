@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2756e51a668a644b8496a3e5e763f33, type: 3}
+  m_Name: conioer
+  m_EditorClassIdentifier: 
+  race: 15
+  cardName: conioer
+  icon: {fileID: 0}
+  cost: 5
+  description: "1. \u5F53\u573A\u4E0A\u6709\u5C5E\u4E8E[\u4E92\u5E2E\u4E92\u52A9]\u7684\u602A\u517D\u5B58\u5728\u65F6\uFF0C\u8FD9\u5F20\u5361\u53EF\u4EE5\u4ECE\u624B\u5361\u7279\u6B8A\u53EC\u5524"
+  group: 00000000
+  effects:
+  - rid: 5347629307263188994
+  range: 1
+  attack: 5
+  health: 5
+  speed: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5347629307263188994
+      type: {class: SpecialSummonCardEffect, ns: , asm: Assembly-CSharp}
+      data:
+        source: 0
+        specialsummonCondition: 

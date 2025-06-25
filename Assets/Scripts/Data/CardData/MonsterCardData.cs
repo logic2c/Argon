@@ -7,8 +7,9 @@ public class MonsterCardData : CardData
 {
     public int range;
     public int attack;
-    public int health;
     public int speed;
+    public int health;
+    
 
     public MonsterCardData()
     {
