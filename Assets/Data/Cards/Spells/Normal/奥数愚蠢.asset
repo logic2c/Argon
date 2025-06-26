@@ -12,19 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9638cacbe13a5a94696e2bf3d51f7555, type: 3}
   m_Name: "\u5965\u6570\u611A\u8822"
   m_EditorClassIdentifier: 
-  race: 0
+  race: 16
   cardName: "\u5965\u6570\u611A\u8822"
   icon: {fileID: 0}
   cost: 1
-  description: 
-  group: 00000000
+  description: "1.\u62BD2\u5F20\u5361"
+  group: 
   effects:
-  - rid: 1164232710380060674
+  - rid: 5347629287936622592
   spellType: 2
   references:
     version: 2
     RefIds:
-    - rid: 1164232710380060674
+    - rid: 5347629287936622592
       type: {class: DrawCardEffect, ns: , asm: Assembly-CSharp}
       data:
         drawAmount: 2

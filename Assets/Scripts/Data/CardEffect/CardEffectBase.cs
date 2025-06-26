@@ -28,7 +28,7 @@ public class DamageEffect : CardEffectBase
     }
 }
 
-public class  DrawCardEffect : CardEffectBase
+public class  DrawCardEffect : CardEffectBase //抽卡效果
 {
     public int drawAmount;
     public override void Execute()
@@ -38,7 +38,7 @@ public class  DrawCardEffect : CardEffectBase
 }
 
 
-public class SearchCardEffect : CardEffectBase
+public class SearchCardEffect : CardEffectBase //检索效果
 {
     public CardPosition destination;
     public int cardCount;
@@ -49,3 +49,24 @@ public class SearchCardEffect : CardEffectBase
         Debug.Log($"Search card to {destination}");
     }
 }
+
+public class ActivateCardEffect : CardEffectBase //发动效果
+{
+    public CardPosition destination;
+    public string activateCondition;
+    public override void Execute()
+    {
+        Debug.Log($"Activate card to {destination}");
+    }
+}
+
+public class SpecialSummonCardEffect : CardEffectBase 
+{ 
+    public CardPosition source;
+    public string specialsummonCondition;
+    public override void Execute()
+    {
+        Debug.Log($"SpecialSummon from {source} card to field");
+    }
+}
+

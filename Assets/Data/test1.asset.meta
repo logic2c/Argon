@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Data/Cards/icelike2.asset.meta
+guid: b1b931b1a4dd10c48b2be8d2e226fa46
+========
 guid: 1111ca6a24dc47a4b9e5791606fb9c8e
+>>>>>>>> 90b80912903e9b38c6b1369bf932330bc8b9fed2:Assets/Data/test1.asset.meta
 NativeFormatImporter:
   externalObjects: {}
   mainObjectFileID: 11400000

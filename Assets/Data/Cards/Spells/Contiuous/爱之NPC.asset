@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9638cacbe13a5a94696e2bf3d51f7555, type: 3}
+  m_Name: "\u7231\u4E4BNPC"
+  m_EditorClassIdentifier: 
+  race: 13
+  cardName: "\u7231\u4E4BNPC"
+  icon: {fileID: 0}
+  cost: 1
+  description: "\u8FD9\u5F20\u5361\u4E0D\u5728\u573A\u4E0A\u5B58\u5728[Love or Loved]\u7684\u60C5\u51B5\u4E0B\u4E0D\u80FD\u53D1\u52A8\r\n1.\u4E00\u56DE\u5408\u4E00\u6B21\uFF0C\u5728\u81EA\u5DF1\u7684\u4E3B\u8981\u9636\u6BB5\u624D\u53EF\u4EE5\u53D1\u52A8\uFF0C\u5728\u81EA\u5DF1\u573A\u4E0A\u7279\u6B8A\u53EC\u55242\u53EAc0/r1/a1/s1/h1\u7684\u517D\u4EBA\u884D\u751F\u7269"
+  group: 
+  effects:
+  - rid: 5347629307263188998
+  spellType: 3
+  argonRecoveramount: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 5347629307263188998
+      type: {class: SpecialSummonCardEffect, ns: , asm: Assembly-CSharp}
+      data:
+        source: 0
+        specialsummonCondition: 

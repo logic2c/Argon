@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2756e51a668a644b8496a3e5e763f33, type: 3}
+  m_Name: sigdcausdg
+  m_EditorClassIdentifier: 
+  race: 0
+  cardName: sigdcausdg
+  icon: {fileID: 0}
+  cost: 2
+  description: "1.\u5BF9\u65B9\u7684\u6218\u6597\u9636\u6BB5\u5F00\u59CB\u65F6\uFF0C\u628A\u8FD9\u5F20\u5361\u4ECE\u624B\u5361\u3001\u573A\u4E0A\u9001\u53BB\u5893\u5730\u624D\u80FD\u53D1\u52A8\uFF0C\u5BF9\u65B9\u7684\u6218\u6597\u9636\u6BB5\u7ED3\u675F"
+  group: 00000000
+  effects: []
+  range: 1
+  attack: 2
+  health: 2
+  speed: 1
+  references:
+    version: 2
+    RefIds: []

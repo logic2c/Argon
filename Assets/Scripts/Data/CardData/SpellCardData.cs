@@ -17,9 +17,11 @@ public class SpellCardData : CardData
 {
     public SpellType spellType;
 
+    public int argonRecoveramount;
     public SpellCardData()
     {
         type = CardType.Spell;
     }
 
+    
 }

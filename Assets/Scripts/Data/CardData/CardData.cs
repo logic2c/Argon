@@ -34,7 +34,8 @@ public enum CardRace
 
 public enum CardGroup
 {
-    BHB,
+    Boyshelpboys,
+    Loveorloved,
     None
 }
 
