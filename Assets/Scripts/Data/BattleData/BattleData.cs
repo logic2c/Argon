@@ -8,7 +8,9 @@ public class BattleData : ScriptableObject
     public string battleName;
     public string description;
     public int maxTurns;
-    public string enemy;  ///////
+    public EnemyData enemy;
+    //public List<EnemyData> enemies;
     public string eventName; // 事件名称
     public string globalBuff;  // 战斗特有buff之类的
+
 }
