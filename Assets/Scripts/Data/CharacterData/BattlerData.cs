@@ -17,7 +17,7 @@ public class BattlerData : ScriptableObject
     public List<Card> deck;
 
     public int maxHealth;
-    //public int attack;
+    //public int attack;  // weapon?
 
 }
 

@@ -49,8 +49,7 @@ public abstract class CardData : ScriptableObject
     [TextArea] public string description;
     public List<CardGroup> group;
 
-    [SerializeReference]
-    [SR]
+    [SerializeReference, SR]
     public List<CardEffectBase> effects;
     //public CardEffect[] onPlayEffects;      // 发动时效果
     //public CardEffect[] onEnterBattlefield; // 进入战场时效果

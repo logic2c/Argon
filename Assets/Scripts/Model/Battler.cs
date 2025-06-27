@@ -36,3 +36,10 @@ public class Player : Battler
     }
 }
 
+public class Enemy : Battler
+{
+    public Enemy(EnemyData data) : base(data)
+    {
+        // Additional enemy-specific initialization can go here
+    }
+}

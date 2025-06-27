@@ -4,18 +4,30 @@ using UnityEngine;
 
 public class BattleManager : Singleton<BattleManager>
 {
-    public BattleData battleData;
+    public Battle Battle { get; private set; }
 
-    // Start is called before the first frame update 
+
     void Start()
     {
-
+        Setup();
 
     }
 
+    private void Setup()
+    {
+        BattleData battleData = DataManager.Instance.BattleData;
+        PlayerData PCData = DataManager.Instance.PCData;
+        if (battleData == null || PCData == null)
+        {
+            Debug.LogError("Battle data or PC data is not set in DataManager.");
+            return;
+        }
 
+        Battle = BattleFactory.CreateExtraBattlerBattle(battleData, new List<PlayerData> { PCData }, new List<EnemyData>());
+        // x-对战开始-对战中-对战结束-x
+        // 先后手, queue.Enqueue();
+    }
 
-    // Update is called once per frame
     void Update()
     {
         

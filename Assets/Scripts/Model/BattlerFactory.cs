@@ -2,17 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BattlerFactory : MonoBehaviour
+
+public static class PlayerFactory 
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Player CreatePlayer(PlayerData data)
     {
-        
+        return new Player(data);
+    }
+}
+
+public static class  EnemyFactory
+{
+    public static Enemy CreateEnemy(EnemyData data)
+    {
+        return new Enemy(data);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
