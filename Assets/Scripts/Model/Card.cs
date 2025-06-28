@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class Card
 {
-    public CardData data;
-    private int cost;
+    public CardData cardData;
+    public int cost;
 
     public Card(CardData data)
     {
+        cardData = data;
         cost = data.cost;
     }
 
@@ -32,7 +33,18 @@ public class MonsterCard : Card
     }
     public void Attack()
     {
-        Debug.Log($"{data.cardName} attacks with {attack} damage!");
+        Debug.Log($"{cardData.cardName} attacks with {attack} damage!");
+    }
+}
+
+public class SpellCard : Card
+{
+    public SpellCard(SpellCardData data) : base(data)
+    {
+    }
+    public void Cast()
+    {
+        Debug.Log($"{cardData.cardName} casts a spell with effect: ");
     }
 }
 

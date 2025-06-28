@@ -20,11 +20,24 @@ MonoBehaviour:
     \u8FD9\u5F20\u5361\u53EF\u4EE5\u4F5C\u4E3A0cost\u7684\u6C38\u7EED\u9B54\u6CD5\u53D1\u52A8\u5230\u68CB\u76D8\u4EFB\u610F\u4F4D\u7F6E\r\n3.
     \u8FD9\u5F20\u5361\u4F5C\u4E3A\u6C38\u7EED\u9B54\u6CD5\u65F6\uFF0C\u5DF1\u65B9\u7ED3\u675F\u9636\u6BB5\uFF0C\u5BF9\u5BF9\u65B9\u9020\u62107\u70B9\u4F24\u5BB3"
   group: 00000000
-  effects: []
+  effects:
+  - rid: 1164232799552012288
   range: 1
   attack: 7
-  health: 7
   speed: 1
+  health: 7
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1164232799552012288
+      type: {class: DamageEffect, ns: , asm: Assembly-CSharp}
+      data:
+        condition:
+          rid: 1164232799552012291
+        damageAmount: 0
+    - rid: 1164232799552012291
+      type: {class: NoCardLimitCondition, ns: , asm: Assembly-CSharp}
+      data:
+        from: 0
+        to: 0
+        course: 

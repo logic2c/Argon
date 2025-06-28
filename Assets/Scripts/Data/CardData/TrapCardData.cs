@@ -16,7 +16,7 @@ public class TrapCardData : CardData
     public int argonRecoveramount;
     public TrapCardData()
     {
-        type = CardType.Spell;
+        cardType = CardType.Spell;
     }
 
 

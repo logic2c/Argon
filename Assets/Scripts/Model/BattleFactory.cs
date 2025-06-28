@@ -4,9 +4,9 @@ using UnityEngine;
 
 public static class BattleFactory
 {
-    public static Battle CreateBattle(BattleData data)
+    public static Battle CreateBasicBattle(BattleData data)
     {
-        Battle battle = new Battle(data);
+        BasicBattle battle = new BasicBattle(data);
         foreach (var playerData in data.players)
         {
             Player player = PlayerFactory.CreatePlayer(playerData);
@@ -20,9 +20,9 @@ public static class BattleFactory
         return battle;
     }
 
-    public static Battle CreateExtraBattlerBattle(BattleData data, List<PlayerData> playerData, List<EnemyData> enemyData)
+    public static Battle CreateBasicBattleWithExtraBattlerData(BattleData data, List<PlayerData> playerData, List<EnemyData> enemyData)
     {
-        Battle battle = CreateBattle(data);
+        Battle battle = CreateBasicBattle(data);
 
         foreach (var pData in playerData)
         {

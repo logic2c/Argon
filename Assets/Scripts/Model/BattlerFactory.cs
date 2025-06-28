@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public class BattlerFactory
+{
+    public static BattlerFactory instance { get; } = new BattlerFactory();
+    public Battler CreateBattler(BattlerData data)
+    {
+        Battler battler = new(data);
+        return battler;
+    }
+}
 
-public static class PlayerFactory 
+public class PlayerFactory : BattlerFactory
 {
     public static Player CreatePlayer(PlayerData data)
     {

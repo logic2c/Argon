@@ -12,7 +12,7 @@ public class MonsterCardData : CardData
 
     public MonsterCardData()
     {
-        type = CardType.Monster;
+        cardType = CardType.Monster;
     }
 
 

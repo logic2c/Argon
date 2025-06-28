@@ -11,10 +11,10 @@ public class BattlerData : ScriptableObject
         Enemy,
         NPC
     }
-    protected BattlerType type;
+    protected BattlerType battlerType;
     public Image battlerImage;
     public string battlerName;
-    public List<Card> deck;
+    public List<CardData> Deck;
 
     public int maxHealth;
     //public int attack;  // weapon?
@@ -25,7 +25,7 @@ public class PlayerData : BattlerData
 {
     public PlayerData()
     {
-        type = BattlerType.Player;
+        battlerType = BattlerType.Player;
     }
 }
 
@@ -33,6 +33,6 @@ public class EnemyData : BattlerData
 {
     public EnemyData()
     {
-        type = BattlerType.Enemy;
+        battlerType = BattlerType.Enemy;
     }
 }

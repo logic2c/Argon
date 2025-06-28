@@ -1,29 +1,41 @@
+using System.Collections.Generic;
+
 public class Battler
 {
-    public BattlerData battlerData;
-    public int currentHealth;
-    public int maxHealth;
+    public BattlerData BattlerData;
+    public int CurrentHealth;
+    public int MaxHealth;
+    public string BattlerName;
+    public List<Card> Deck;
 
     public Battler(BattlerData data)
     {
-        battlerData = data;
-        maxHealth = data.maxHealth;
-        currentHealth = maxHealth;
+        BattlerData = data;
+        MaxHealth = data.maxHealth;
+        CurrentHealth = MaxHealth;
+        BattlerName = data.battlerName;
+        Deck = new List<Card>();
+        foreach (CardData cardData in data.Deck)
+        {
+            Card card = CardFactory.Instance.CreateCard(cardData);
+            Deck.Add(card);
+        }
+
     }
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth < 0)
+        CurrentHealth -= damage;
+        if (CurrentHealth < 0)
         {
-            currentHealth = 0;
+            CurrentHealth = 0;
         }
     }
     public void Heal(int amount)
     {
-        currentHealth += amount;
-        if (currentHealth > maxHealth)
+        CurrentHealth += amount;
+        if (CurrentHealth > MaxHealth)
         {
-            currentHealth = maxHealth;
+            CurrentHealth = MaxHealth;
         }
     }
 }
@@ -42,4 +54,6 @@ public class Enemy : Battler
     {
         // Additional enemy-specific initialization can go here
     }
+
+    // ai part
 }

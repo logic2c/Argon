@@ -23,7 +23,7 @@ public class BattleManager : Singleton<BattleManager>
             return;
         }
 
-        Battle = BattleFactory.CreateExtraBattlerBattle(battleData, new List<PlayerData> { PCData }, new List<EnemyData>());
+        Battle = BattleFactory.CreateBasicBattleWithExtraBattlerData(battleData, new List<PlayerData> { PCData }, new List<EnemyData>());
         // x-对战开始-对战中-对战结束-x
         // 先后手, queue.Enqueue();
     }

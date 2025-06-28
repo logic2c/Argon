@@ -41,8 +41,8 @@ public enum CardGroup
 
 public abstract class CardData : ScriptableObject
 {
-    protected CardType type;
-    public CardRace race;
+    protected CardType cardType;
+    public CardRace cardRace;
     public string cardName;
     public Sprite icon;
     public int cost;

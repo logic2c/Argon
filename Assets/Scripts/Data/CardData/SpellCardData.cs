@@ -20,7 +20,7 @@ public class SpellCardData : CardData
     public int argonRecoveramount;
     public SpellCardData()
     {
-        type = CardType.Spell;
+        cardType = CardType.Spell;
     }
 
     
