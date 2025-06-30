@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class BattleManager : Singleton<BattleManager>
 {
-    public Battle Battle { get; private set; }
+    public BasicBattle battle { get; private set; }
 
 
     void Start()
@@ -23,15 +24,33 @@ public class BattleManager : Singleton<BattleManager>
             return;
         }
 
-        Battle = BattleFactory.CreateBasicBattleWithExtraBattlerData(battleData, new List<PlayerData> { PCData }, new List<EnemyData>());
+        battle = BattleFactory.CreateBasicBattleWithExtraBattlerData(battleData, new List<PlayerData> { PCData }, new List<NonPlayerData>());
         // x-对战开始-对战中-对战结束-x
-        // 先后手, queue.Enqueue();
+        battle.StartBattle();
     }
 
+    Queue<Command> commandQueue = new Queue<Command>();
+    public void EnqueueCommand(Command command)
+    {
+        //if (battle.CheckCommandValid(command)){
+        //    commandQueue.Enqueue(command);
+        //}
+        commandQueue.Enqueue(command);
+    }
+    public Command ActiveCommand { get; private set; }
     void Update()
     {
-        
+        if (!ActiveCommand.IsExecuting && commandQueue.Count > 0)
+        {
+            ActiveCommand = commandQueue.Dequeue();
+            if (battle.CheckCommandValid(ActiveCommand))
+            {
+                battle.ReduceCommandCountRestriction(ActiveCommand);
+                ActiveCommand.Execute();
+            }
+        }
     }
+
 }
 
 public enum CardPosition

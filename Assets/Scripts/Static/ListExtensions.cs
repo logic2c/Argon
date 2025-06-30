@@ -14,33 +14,32 @@ public static class ListExtensions
         }
     }
 
-    public static T DrawCard<T>(this List<T> list)
-    {
-        if (list.Count == 0)
-        {
-            Debug.LogError("牌堆已空！");  /////
-            return default;
-        }
+    //public static T DrawCard<T>(this List<T> list)
+    //{
+    //    if (list.Count == 0)
+    //    {
+    //        Debug.LogError("牌堆已空！");  /////
+    //        return default;
+    //    }
 
-        T card = list[0];
-        list.RemoveAt(0);
-        return card;
-    }
+    //    T card = list[0];
+    //    list.RemoveAt(0);
+    //    return card;
+    //}
 
-    // 批量抽牌方法
-    public static List<T> DrawCards<T>(this List<T> list, int count)
-    {
-        List<T> drawnCards = new List<T>();
+    //public static List<T> DrawCards<T>(this List<T> list, int count)
+    //{
+    //    List<T> drawnCards = new List<T>();
 
-        for (int i = 0; i < count; i++)
-        {
-            if (list.Count > 0)
-            {
-                drawnCards.Add(list.DrawCard());
-            }
-        }
+    //    for (int i = 0; i < count; i++)
+    //    {
+    //        if (list.Count > 0)
+    //        {
+    //            drawnCards.Add(list.DrawCard());
+    //        }
+    //    }
 
-        return drawnCards;
-    }
+    //    return drawnCards;
+    //}
 
 }

@@ -8,12 +8,6 @@ public class CardFactory
     public virtual Card CreateCard(CardData data)
     {
         Card card = new Card(data);
-        //card.Name = data.name;
-        //card.Description = data.description;
-        //card.cost = data.cost;
-        //card.Type = data.cardType;
-        //card.Power = data.power;
-        //card.Image = data.image; // Assuming CardData has an Image property
         return card;
     }
 }

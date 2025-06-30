@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class BattleFactory
 {
-    public static Battle CreateBasicBattle(BattleData data)
+    public static BasicBattle CreateBasicBattle(BattleData data)
     {
         BasicBattle battle = new BasicBattle(data);
         foreach (var playerData in data.players)
@@ -14,15 +14,15 @@ public static class BattleFactory
         }
         foreach (var enemyData in data.enemies)
         {
-            Enemy enemy = EnemyFactory.CreateEnemy(enemyData);
+            NonPlayer enemy = NonPlayerFactory.CreateNonPlayer(enemyData);
             battle.Enemies.Add(enemy);
         }
         return battle;
     }
 
-    public static Battle CreateBasicBattleWithExtraBattlerData(BattleData data, List<PlayerData> playerData, List<EnemyData> enemyData)
+    public static BasicBattle CreateBasicBattleWithExtraBattlerData(BattleData data, List<PlayerData> playerData, List<NonPlayerData> enemyData)
     {
-        Battle battle = CreateBasicBattle(data);
+        BasicBattle battle = CreateBasicBattle(data);
 
         foreach (var pData in playerData)
         {
@@ -31,7 +31,7 @@ public static class BattleFactory
         }
         foreach (var eData in enemyData)
         {
-            Enemy enemy = EnemyFactory.CreateEnemy(eData);
+            NonPlayer enemy = NonPlayerFactory.CreateNonPlayer(eData);
             battle.Enemies.Add(enemy);
         }
 

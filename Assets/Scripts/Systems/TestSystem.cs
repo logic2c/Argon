@@ -6,10 +6,12 @@ using UnityEngine;
 
 public class TestSystem : MonoBehaviour
 {
-    // Start is called before the first frame update
     void Start()
     {
-        //AudioManager.Instance.Test();
+        // read from scriptable object assets
+        // Test
+        DataManager.Instance.PCData = AssetDatabase.LoadAssetAtPath<PlayerData>("Assets/Data/Battler/PC.asset");
+        DataManager.Instance.BattleData = AssetDatabase.LoadAssetAtPath<BattleData>("Assets/Data/Battle/TestBattle.asset");
 
     }
 

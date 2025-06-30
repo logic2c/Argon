@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ba124c12c6d78428336e3508dc1165, type: 3}
+  m_Name: TestBattle
+  m_EditorClassIdentifier: 
+  battleName: 1
+  description: 1
+  maxTurns: 2147483647
+  enemies:
+  - {fileID: 11400000, guid: bcede392f79a6f5439db27c9fdaad60c, type: 2}
+  players:
+  - {fileID: 11400000, guid: 9affccfdf5d39244c9f80d08cb48553c, type: 2}

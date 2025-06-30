@@ -6,7 +6,9 @@ public class Battler
     public int CurrentHealth;
     public int MaxHealth;
     public string BattlerName;
-    public List<Card> Deck;
+    public List<Card> Hand { get; private set; } = new List<Card>();
+    public List<Card> DrawPile { get; private set; } = new List<Card>();
+    public List<Card> DiscardPile { get; private set; } = new List<Card>();
 
     public Battler(BattlerData data)
     {
@@ -14,11 +16,11 @@ public class Battler
         MaxHealth = data.maxHealth;
         CurrentHealth = MaxHealth;
         BattlerName = data.battlerName;
-        Deck = new List<Card>();
+        DrawPile = new List<Card>();
         foreach (CardData cardData in data.Deck)
         {
             Card card = CardFactory.Instance.CreateCard(cardData);
-            Deck.Add(card);
+            DrawPile.Add(card);
         }
 
     }
@@ -38,6 +40,20 @@ public class Battler
             CurrentHealth = MaxHealth;
         }
     }
+
+    public void DrawCards(int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (DrawPile.Count > 0)
+            {
+                Card drawnCard = DrawPile[0];
+                DrawPile.RemoveAt(0);
+                Hand.Add(drawnCard);
+                BattleEventManager.BattlerEvents.OnBattlerCardDrawn?.Invoke(this);
+            }
+        }
+    }
 }
 
 public class Player : Battler
@@ -48,9 +64,9 @@ public class Player : Battler
     }
 }
 
-public class Enemy : Battler
+public class NonPlayer : Battler
 {
-    public Enemy(EnemyData data) : base(data)
+    public NonPlayer(NonPlayerData data) : base(data)
     {
         // Additional enemy-specific initialization can go here
     }

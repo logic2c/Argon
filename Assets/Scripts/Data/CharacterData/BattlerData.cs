@@ -21,18 +21,4 @@ public class BattlerData : ScriptableObject
 
 }
 
-public class PlayerData : BattlerData
-{
-    public PlayerData()
-    {
-        battlerType = BattlerType.Player;
-    }
-}
 
-public class EnemyData : BattlerData
-{
-    public EnemyData()
-    {
-        battlerType = BattlerType.Enemy;
-    }
-}
