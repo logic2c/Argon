@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b1109b016357c447a7dd289f2dfe7b0, type: 3}
-  m_Name: PC
+  m_Script: {fileID: 11500000, guid: 7042598d2c45a66479d1862a81ea4b15, type: 3}
+  m_Name: TestEnemy
   m_EditorClassIdentifier: 
-  battlerName: 
+  battlerName: TestEnemy
   Deck: []
   maxHealth: 0

@@ -25,10 +25,9 @@ public class FiveStatesTurn : Turn
     public TurnStateMachine StateMachine { get; private set; }
     public Dictionary<TurnStateType, int> TurnStateCount { get; private set; }
 
-    public FiveStatesTurn(Battler battler) : base(battler)
+    public FiveStatesTurn(Battler battler, TurnBaseState initialState) : base(battler)
     {
-        StateMachine = new TurnStateMachine();
-        StateMachine.ChangeState(new TurnStartState());
+        StateMachine = new TurnStateMachine(initialState);
         TurnStateCount = new Dictionary<TurnStateType, int>
         {
             { TurnStateType.Start, 1 },
@@ -69,7 +68,7 @@ public class FiveStatesTurn : Turn
         }
         else
         {
-            if(StateMachine.CurrentState.CommandCountRestriction.TryGetValue(command.Type, out int restrictionCount))
+            if(StateMachine.CurrentState.CommandCountRestriction.TryGetValue(command.commandType, out int restrictionCount))
             {
                 if (restrictionCount > 0)
                 {
@@ -77,7 +76,7 @@ public class FiveStatesTurn : Turn
                 }
                 else
                 {
-                    Debug.Log($"Command {command.Type} is restricted in the current state: {StateMachine.CurrentState.GetType().Name}");
+                    Debug.Log($"Command {command.commandType} is restricted in the current state: {StateMachine.CurrentState.GetType().Name}");
                     return false;
                 }
             }
@@ -113,11 +112,31 @@ public class FiveStatesTurn : Turn
 public class TurnStateMachine
 {
     private TurnBaseState _currentState;
-    public TurnBaseState CurrentState { get { return _currentState; } }
-    public TurnStateMachine()
+    private TurnBaseState _initialState;
+    public TurnBaseState CurrentState { get
+        {
+            if (_currentState == null)
+            {
+                return _initialState;
+            }
+            return _currentState;
+        } }
+    public TurnStateMachine(TurnBaseState initialState)
     {
         _currentState = null;
-        ChangeState(new TurnStartState());
+        _initialState = initialState;
+    }
+    public void Initialize()
+    {
+        if (_initialState != null)
+        {
+            ChangeState(_initialState);
+            _initialState = null;  // useless after initialization, gc it
+        }
+        else
+        {
+            Debug.LogError("Initial state is not set for the TurnStateMachine.");
+        }
     }
 
     public void ChangeState(TurnBaseState newState)
@@ -153,7 +172,7 @@ public class TurnStartState : TurnBaseState
     {
         CommandCountRestriction = new Dictionary<CommandType, int>
         {
-            { CommandType.DrawCard, 1 },
+            { CommandType.BattlerDrawCard, 1 },
         };
     }
 
@@ -207,18 +226,15 @@ public class TurnMain2State : TurnBaseState
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        BattleEventManager.TurnMain2StateEvents.OnStateEntered?.Invoke();
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        BattleEventManager.TurnMain2StateEvents.OnStateExited?.Invoke();
     }
 
-    public override void UpdateState()
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void UpdateState() { }
 }
 
 public class TurnEndState : TurnBaseState
@@ -227,16 +243,13 @@ public class TurnEndState : TurnBaseState
 
     public override void EnterState()
     {
-        throw new System.NotImplementedException();
+        BattleEventManager.TurnEndStateEvents.OnStateEntered?.Invoke();
     }
 
     public override void ExitState()
     {
-        throw new System.NotImplementedException();
+        BattleEventManager.TurnEndStateEvents.OnStateExited?.Invoke();
     }
 
-    public override void UpdateState()
-    {
-        throw new System.NotImplementedException();
-    }
+    public override void UpdateState() { }
 }

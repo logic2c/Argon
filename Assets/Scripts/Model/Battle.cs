@@ -49,19 +49,63 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
         if (Random.Range(0, 2) == 0)
         {
             // Player first
-            Turns.Enqueue(TurnFactory.CreateFirstFiveStatesTurn(Players[0]));
+            SwitchToCurrentTurn(TurnFactory.CreateFirstFiveStatesTurn(Players[0]));
         }
         else
         {
             // Enemy first
-            Turns.Enqueue(TurnFactory.CreateFirstFiveStatesTurn(Enemies[0]));
+            SwitchToCurrentTurn(TurnFactory.CreateFirstFiveStatesTurn(Enemies[0]));
         }
+    }
+
+    public void NextTurn()
+    {
+        if (Turns.Count > 0)
+        {
+            SwitchToCurrentTurn(Turns.Dequeue());
+        }
+        else
+        {
+            // append opponent's turn
+            if (CurrentTurn.ActiveBattler is Player)
+            {
+                SwitchToCurrentTurn(TurnFactory.CreateFiveStatesTurn(Enemies[0]));
+            }
+            else if (CurrentTurn.ActiveBattler is NonPlayer)
+            {
+                SwitchToCurrentTurn(TurnFactory.CreateFiveStatesTurn(Players[0]));
+            }
+            else
+            {
+                Debug.LogError("Current turn's active battler is neither Player nor NonPlayer.");
+            }
+
+        }
+    }
+
+    void SwitchToCurrentTurn(FiveStatesTurn newTurn)  // 感觉好像应该叫 TurnStart...
+    {
+        CurrentTurn = newTurn;
+        Debug.Log($"Current Turn Changed: {CurrentTurn.ActiveBattler.BattlerName}");
+        CurrentTurn.StateMachine.Initialize();  // start first state
     }
 
     public static void ShuffleBattlerDrawPile(Battler battler)
     {
         battler.DrawPile.Shuffle();
     }
+
+    public void CurrentBattlerDrawCards(int count)
+    {
+        if (CurrentTurn == null)
+        {
+            Debug.LogError("No current turn to draw cards for.");
+            return;
+        }
+        CurrentTurn.ActiveBattler.DrawCards(count);
+        Debug.Log($"{CurrentTurn.ActiveBattler.BattlerName} drew {count} cards.");
+    }
+
     public bool CheckCommandValid(Command command)
     {
         if (CurrentTurn == null)
@@ -78,6 +122,6 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
             Debug.LogError("No current turn to reduce command count restriction.");
             return;
         }
-        CurrentTurn.ReduceCurrentStateCommandCountRestriction(command.Type);
+        CurrentTurn.ReduceCurrentStateCommandCountRestriction(command.commandType);
     }
 }

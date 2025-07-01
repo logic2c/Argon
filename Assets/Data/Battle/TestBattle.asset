@@ -17,5 +17,4 @@ MonoBehaviour:
   maxTurns: 2147483647
   enemies:
   - {fileID: 11400000, guid: bcede392f79a6f5439db27c9fdaad60c, type: 2}
-  players:
-  - {fileID: 11400000, guid: 9affccfdf5d39244c9f80d08cb48553c, type: 2}
+  players: []

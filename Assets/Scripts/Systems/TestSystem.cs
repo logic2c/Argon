@@ -9,9 +9,6 @@ public class TestSystem : MonoBehaviour
     void Start()
     {
         // read from scriptable object assets
-        // Test
-        DataManager.Instance.PCData = AssetDatabase.LoadAssetAtPath<PlayerData>("Assets/Data/Battler/PC.asset");
-        DataManager.Instance.BattleData = AssetDatabase.LoadAssetAtPath<BattleData>("Assets/Data/Battle/TestBattle.asset");
 
     }
 
@@ -21,6 +18,27 @@ public class TestSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             
+        }
+        // key 12345 represent 5 TurnStates
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log("TurnState: Start");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log("TurnState: Draw");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Debug.Log("TurnState: Action");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Debug.Log("TurnState: End");
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            Debug.Log("TurnState: Wait");
         }
     }
 
