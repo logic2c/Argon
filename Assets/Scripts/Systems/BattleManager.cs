@@ -38,27 +38,18 @@ public class BattleManager : Singleton<BattleManager>
     }
 
 
-    // Command part
-    Queue<Command> commandQueue = new Queue<Command>();
-    public void EnqueueCommand(Command command)
-    {
-        //if (battle.CheckCommandValid(command)){
-        //    commandQueue.Enqueue(command);
-        //}
-        command.CurrentTurnOwner = BattleModel.CurrentTurn.ActiveBattler;
-        commandQueue.Enqueue(command);
-    }
-    public Command ActiveCommand { get; private set; }
     void Update()
     {
-        if (commandQueue.Count > 0 && !ActiveCommand.IsExecuting)
+    }
+
+    void EndBattle(Battler winner=null, Battler loser=null)
+    {
+        if (winner == null && loser == null) {
+            Debug.Log("No one wins...");
+        }
+        else
         {
-            ActiveCommand = commandQueue.Dequeue();
-            if (BattleModel.CheckCommandValid(ActiveCommand))
-            {
-                BattleModel.ReduceCommandCountRestriction(ActiveCommand);
-                ActiveCommand.Execute();
-            }
+
         }
     }
 
@@ -66,20 +57,75 @@ public class BattleManager : Singleton<BattleManager>
     private void OnEnable()
     {
         BattleEventManager.TurnStartStateEvents.OnStateEntered += HandleTurnStartStateEntered;
+        BattleEventManager.ViewEvents.OnDrawCardButtonClick += HandleViewDrawCardButtonClick;
+        BattleEventManager.BattlerEvents.OnBattlerCardDrawn += HandleBattlerCardDrawn;
+        BattleEventManager.BattlerEvents.OnDrawPileEmpty += HandleBattlerDrawPileEmpty;
+        BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged += HandleTurnStateActionLimitChanged;
     }
     private void OnDisable()
     {
-        // Clean up if needed
-        commandQueue.Clear();
-        ActiveCommand = null;
-        // Events
         BattleEventManager.TurnStartStateEvents.OnStateEntered -= HandleTurnStartStateEntered;
+        BattleEventManager.ViewEvents.OnDrawCardButtonClick -= HandleViewDrawCardButtonClick;
+        BattleEventManager.BattlerEvents.OnBattlerCardDrawn -= HandleBattlerCardDrawn;
+        BattleEventManager.BattlerEvents.OnDrawPileEmpty -= HandleBattlerDrawPileEmpty;
+        BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged -= HandleTurnStateActionLimitChanged;
+
+
     }
-    private void HandleTurnStartStateEntered()
+    void HandleTurnStartStateEntered()
     {
         Debug.Log("Turn Start State Entered");
-        // view activate draw cards choice ui
-        ViewManager.Instance.OnTurnStartStateEntered();
+        ViewManager.Instance.OnTurnStartStateEntered();  /////
+        if(BattleModel.CurrentTurn.ActiveBattler is Player)
+        {
+            // view activate draw cards choice ui
+            if (BattleModel.CheckActionLimited(ActionType.BattlerDrawCard)){
+                ViewManager.Instance.DrawCardButton.interactable = true;
+            }
+            else { ViewManager.Instance.DrawCardButton.interactable = false; }
+            ViewManager.Instance.EndStateButton.interactable = true;
+            ViewManager.Instance.EndStateButtonTextComponent.text = "End Start State";
+
+        }
+        else if (BattleModel.CurrentTurn.ActiveBattler is NonPlayer)
+        {
+            NonPlayer enemy = BattleModel.CurrentTurn.ActiveBattler as NonPlayer;
+            enemy.DecideStartStateDrawCard();  /////
+        }
+        else
+        {
+            Debug.LogError("how could this happen???");
+        }
+    }
+    void HandleViewDrawCardButtonClick()
+    {
+        Debug.Log("Start State Draw Card");
+        // model draw cards
+        BattleModel.CurrentBattlerDrawCards(1);
+    }
+    void HandleBattlerCardDrawn(Battler battler)
+    {
+        //view part, player and enemy
+    }
+    void HandleBattlerDrawPileEmpty(Battler battler)
+    {
+        EndBattle(loser: battler);
+    }
+    void HandleTurnStateActionLimitChanged(OperationLimiterUtil<ActionType> limiter, ActionType action)
+    {
+        switch (action)
+        {
+            case ActionType.BattlerDrawCard:
+                if(limiter.CheckValid(action))
+                {
+                    ViewManager.Instance.EnableDrawCardButton();
+                }
+                else
+                {
+                    ViewManager.Instance.DisableDrawCardButton();
+                }
+                break;
+        }
     }
 }
 

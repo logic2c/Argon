@@ -37,12 +37,12 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
         foreach (var player in Players)
         {
             ShuffleBattlerDrawPile(player);
-            player.DrawCards(5);
+            player.TryDrawCards(5);
         }
         foreach (var enemy in Enemies)
         {
             ShuffleBattlerDrawPile(enemy);
-            enemy.DrawCards(5);
+            enemy.TryDrawCards(5);
         }
 
         // 先后手
@@ -95,6 +95,11 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
         battler.DrawPile.Shuffle();
     }
 
+    public bool CheckActionLimited(ActionType type)
+    {
+        return CurrentTurn.StateMachine.CurrentState.ActionLimiterWithEvent.CheckValid(type);
+    }
+
     public void CurrentBattlerDrawCards(int count)
     {
         if (CurrentTurn == null)
@@ -102,26 +107,7 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
             Debug.LogError("No current turn to draw cards for.");
             return;
         }
-        CurrentTurn.ActiveBattler.DrawCards(count);
-        Debug.Log($"{CurrentTurn.ActiveBattler.BattlerName} drew {count} cards.");
+        CurrentTurn.CurrentBattlerDrawCards(count);
     }
 
-    public bool CheckCommandValid(Command command)
-    {
-        if (CurrentTurn == null)
-        {
-            Debug.LogError("No current turn to check command validity against.");
-            return false;
-        }
-        return CurrentTurn.CheckCommandValid(command);
-    }
-    public void ReduceCommandCountRestriction(Command command)
-    {
-        if (CurrentTurn == null)
-        {
-            Debug.LogError("No current turn to reduce command count restriction.");
-            return;
-        }
-        CurrentTurn.ReduceCurrentStateCommandCountRestriction(command.commandType);
-    }
 }

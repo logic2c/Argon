@@ -23,89 +23,46 @@ public class FiveStatesTurn : Turn
         End
     }
     public TurnStateMachine StateMachine { get; private set; }
-    public Dictionary<TurnStateType, int> TurnStateCount { get; private set; }
+    public OperationLimiterUtil<TurnStateType> TurnStateLimiter { get; private set; } = new OperationLimiterUtil<TurnStateType>();
 
     public FiveStatesTurn(Battler battler, TurnBaseState initialState) : base(battler)
     {
         StateMachine = new TurnStateMachine(initialState);
-        TurnStateCount = new Dictionary<TurnStateType, int>
-        {
-            { TurnStateType.Start, 1 },
-            { TurnStateType.Main1, 1 },
-            { TurnStateType.Battle, 1 },
-            { TurnStateType.Main2, 1 },
-            { TurnStateType.End, 1 }
-        };
+        TurnStateLimiter.InitializeDefaults(1);
     }
-    public void AddTurnStateCount(TurnStateType stateType, int count)
+
+    public bool CurrentBattlerTryDrawCard()
     {
-        if (TurnStateCount.ContainsKey(stateType))
+        var limiter = StateMachine.CurrentState.ActionLimiterWithEvent;
+        // if both action limit and draw pile are valid, then draw a card
+        if (limiter.CheckValid(ActionType.BattlerDrawCard) && ActiveBattler.CheckCanDrawCard())
         {
-            TurnStateCount[stateType] += count;
+            limiter.TryUse(ActionType.BattlerDrawCard);
+            ActiveBattler.TryDrawCard();
+            Debug.Log($"{ActiveBattler.BattlerName} drew 1 card.");
+            return true;
         }
         else
         {
-            Debug.LogError($"State type {stateType} does not exist in TurnStateCount.");
-        }
-    }
-    public void AddStateCount(TurnStateType stateType, int count)
-    {
-        if (TurnStateCount.ContainsKey(stateType))
-        {
-            TurnStateCount[stateType] += count;
-        }
-        else
-        {
-            Debug.LogError($"State type {stateType} does not exist in TurnStateCount.");
+            Debug.Log($"{ActiveBattler.BattlerName} cannot draw a card due to action limit or empty draw pile.");
+            return false;
         }
     }
 
-    public bool CheckCommandValid(Command command)
+    public void CurrentBattlerDrawCards(int count)
     {
-        if (!Object.ReferenceEquals(ActiveBattler, command.CurrentTurnOwner))  // 发动时机不对
+        for (int i = 0; i < count; i++)
         {
-            return false;
-        }
-        else
-        {
-            if(StateMachine.CurrentState.CommandCountRestriction.TryGetValue(command.commandType, out int restrictionCount))
-            {
-                if (restrictionCount > 0)
-                {
-                    return true;
-                }
-                else
-                {
-                    Debug.Log($"Command {command.commandType} is restricted in the current state: {StateMachine.CurrentState.GetType().Name}");
-                    return false;
-                }
+            if (CurrentBattlerTryDrawCard()) { 
+                
             }
-            else  // 没写就是白名单
-            {
-                return true;
+            else { 
+                Debug.Log($"{ActiveBattler.BattlerName} drew {i} cards."); 
+                return; 
             }
         }
+        Debug.Log($"{ActiveBattler.BattlerName} drew {count} cards.");
     }
-    public void ReduceCurrentStateCommandCountRestriction(CommandType commandType)
-    {
-        if (StateMachine.CurrentState.CommandCountRestriction.TryGetValue(commandType, out int count))
-        {
-            //if (count > 0)
-            //{
-            //    StateMachine.CurrentState.CommandCountRestriction[commandType] = count - 1;
-            //}
-            //else
-            //{
-            //    Debug.LogError($"Command {commandType} count is already zero in the current state: {StateMachine.CurrentState.GetType().Name}");
-            //}
-            StateMachine.CurrentState.CommandCountRestriction[commandType] = count - 1;
-        }
-        else
-        {
-            //Debug.LogError($"Command {commandType} does not exist in the current state's restrictions.");
-        }
-    }
-    
 }
 
 
@@ -146,19 +103,80 @@ public class TurnStateMachine
         _currentState.EnterState();
     }
 }
+
+public enum ActionType
+{
+    BattlerDrawCard,
+    SummonMonster,
+}
 public abstract class TurnBaseState
 {
-    public Dictionary<CommandType, int> CommandCountRestriction { get; private set; } = new Dictionary<CommandType, int>();
-    public void AddCommandCountRestriction(CommandType commandType, int count)
+    private OperationLimiterUtil<ActionType> ActionLimiter { get; set; } = new OperationLimiterUtil<ActionType>();
+    public OperationLimiterUtilWithEventDecorator ActionLimiterWithEvent { get; private set; }
+    public class OperationLimiterUtilWithEventDecorator
     {
-        if (CommandCountRestriction.ContainsKey(commandType))
+        private readonly OperationLimiterUtil<ActionType> _baseLimiter;
+        public OperationLimiterUtilWithEventDecorator(OperationLimiterUtil<ActionType> baseLimiter)
         {
-            CommandCountRestriction[commandType] += count;
+            _baseLimiter = baseLimiter;
         }
-        else
+        public void InitializeDefaults(int? defaultLimit = null)
         {
-            CommandCountRestriction.Add(commandType, count);
+            _baseLimiter.InitializeDefaults(defaultLimit);
         }
+
+        public void SetLimit(ActionType actionType, int? limit)
+        {
+            _baseLimiter.SetLimit(actionType, limit);
+            BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
+        }
+        public bool IncreaseLimit(ActionType actionType, int amount)
+        {
+            bool result = _baseLimiter.IncreaseLimit(actionType, amount);
+            if (result)
+            {
+                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
+            }
+            return result;
+        }
+        public bool DecreaseLimit(ActionType actionType, int amount)
+        {
+            bool result = _baseLimiter.DecreaseLimit(actionType, amount);
+            if (result)
+            {
+                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
+            }
+            return result;
+        }
+        public bool CheckValid(ActionType actionType)
+        {
+            return _baseLimiter.CheckValid(actionType);
+        }
+
+        public bool TryUse(ActionType actionType)
+        {
+            bool result = _baseLimiter.TryUse(actionType);
+            if (result)
+            {
+                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
+            }
+            return result;
+        }
+        public int? GetRemainingCount(ActionType actionType)
+        {
+            return _baseLimiter.GetRemainingCount(actionType);
+        }
+        public void ResetAll()
+        {
+            _baseLimiter.ResetAll();
+            //BattleEventManager.TurnEvents.OnTurnStateActionLimitReset?.Invoke(_baseLimiter);
+        }
+    }
+
+    public TurnBaseState()
+    {
+        ActionLimiter.InitializeDefaults();
+        ActionLimiterWithEvent = new OperationLimiterUtilWithEventDecorator(ActionLimiter);
     }
     public abstract void EnterState();
     public abstract void UpdateState();
@@ -167,13 +185,9 @@ public abstract class TurnBaseState
 
 public class TurnStartState : TurnBaseState
 {
-    public new Dictionary<CommandType, int> CommandCountRestriction { get; private set; }
-    public TurnStartState()
+    public TurnStartState() : base()
     {
-        CommandCountRestriction = new Dictionary<CommandType, int>
-        {
-            { CommandType.BattlerDrawCard, 1 },
-        };
+        ActionLimiterWithEvent.SetLimit(ActionType.BattlerDrawCard, 1);
     }
 
     public override void EnterState()
@@ -190,7 +204,6 @@ public class TurnStartState : TurnBaseState
 }
 public class TurnMain1State : TurnBaseState
 {
-    public new Dictionary<CommandType, int> CommandCountRestriction { get; private set; }
 
     public override void EnterState()
     {
@@ -206,7 +219,6 @@ public class TurnMain1State : TurnBaseState
 }
 public class TurnBattleState : TurnBaseState
 {
-    public new Dictionary<CommandType, int> CommandCountRestriction { get; private set; }
 
     public override void EnterState()
     {
@@ -222,7 +234,6 @@ public class TurnBattleState : TurnBaseState
 }
 public class TurnMain2State : TurnBaseState
 {
-    public new Dictionary<CommandType, int> CommandCountRestriction { get; private set; }
 
     public override void EnterState()
     {
@@ -239,7 +250,6 @@ public class TurnMain2State : TurnBaseState
 
 public class TurnEndState : TurnBaseState
 {
-    public new Dictionary<CommandType, int> CommandCountRestriction { get; private set; }
 
     public override void EnterState()
     {

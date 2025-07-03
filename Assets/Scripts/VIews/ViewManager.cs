@@ -33,18 +33,25 @@ public class ViewManager : Singleton<ViewManager>
     }
     void HandleDrawCardButtonClick()
     {
-        // model draw cards
-        //BattleModel.CurrentBattlerDrawCards(1);
-        DrawCardButton.interactable = false;
+        BattleEventManager.ViewEvents.OnDrawCardButtonClick?.Invoke();
     }
 
     public void OnTurnStartStateEntered()
     {
-        EndStateButton.interactable = true;
+        // ½ö×öÊ¾Àý
+        
+        
+    }
+
+    public void EnableDrawCardButton()
+    {
+        Debug.Log("enable draw card button");
         DrawCardButton.interactable = true;
-        EndStateButtonTextComponent.text = "End Start State";
-        
-        
+    }
+    public void DisableDrawCardButton()
+    {
+        Debug.Log("ban ddraw card button");
+        DrawCardButton.interactable = false;
     }
 
     void Update()

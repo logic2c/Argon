@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 public class Battler
 {
@@ -41,16 +42,36 @@ public class Battler
         }
     }
 
-    public void DrawCards(int count)
+    public bool CheckCanDrawCard()
     {
-        for (int i = 0; i < count; i++)
+        return DrawPile.Count > 0;
+    }
+    public bool TryDrawCard()
+    {
+        if (DrawPile.Count > 0)
         {
-            if (DrawPile.Count > 0)
+            Card drawnCard = DrawPile[0];
+            DrawPile.RemoveAt(0);
+            Hand.Add(drawnCard);
+            BattleEventManager.BattlerEvents.OnBattlerCardDrawn?.Invoke(this);
+            Debug.Log($"{BattlerName} draw 1 card");
+            return true;
+        }
+        else
+        {
+            BattleEventManager.BattlerEvents.OnDrawPileEmpty?.Invoke(this);
+            Debug.Log($"#{BattlerName}'s DrawPile Empty");
+            return false;
+        }
+    }
+    public void TryDrawCards(int count)
+    {
+        for(int i = 0; i < count; i++)
+        {
+            if (!TryDrawCard())
             {
-                Card drawnCard = DrawPile[0];
-                DrawPile.RemoveAt(0);
-                Hand.Add(drawnCard);
-                BattleEventManager.BattlerEvents.OnBattlerCardDrawn?.Invoke(this);
+                Debug.LogWarning($"#{BattlerName} tried to draw {count} cards, but the DrawPile is empty.");
+                break;
             }
         }
     }
@@ -72,4 +93,8 @@ public class NonPlayer : Battler
     }
 
     // ai part
+    public void DecideStartStateDrawCard()
+    {
+
+    }
 }

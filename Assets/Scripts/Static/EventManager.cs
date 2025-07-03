@@ -20,6 +20,10 @@ public static class BattleEventManager
         public static UnityAction<Card> OnCardDrawn;
         public static UnityAction<Card> OnCardDiscarded;
     }
+    public struct ViewEvents
+    {
+        public static UnityAction OnDrawCardButtonClick;
+    }
     public struct BattlerEvents
     {
         public static UnityAction<Battler> OnBattlerHealthChanged;
@@ -27,6 +31,11 @@ public static class BattleEventManager
         public static UnityAction<Battler> OnBattlerTurnStart;
         public static UnityAction<Battler> OnBattlerTurnEnd;
         public static UnityAction<Battler> OnBattlerCardDrawn;
+        public static UnityAction<Battler> OnDrawPileEmpty;
+    }
+    public struct TurnEvents
+    {
+        public static UnityAction<OperationLimiterUtil<ActionType>, ActionType> OnTurnStateActionLimitChanged;
     }
     public struct TurnStartStateEvents
     {
