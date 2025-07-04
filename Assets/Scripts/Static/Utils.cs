@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public static class MathUtils
 {
@@ -28,6 +29,14 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
 {
     // 存储每个操作类型的剩余次数（null 表示无限制）
     private readonly Dictionary<TOpEnum, int?> _operationLimits = new Dictionary<TOpEnum, int?>();
+    private readonly UnityAction<OperationLimiterUtil<TOpEnum>, TOpEnum> _event;
+
+    public OperationLimiterUtil(UnityAction<OperationLimiterUtil<TOpEnum>, TOpEnum> evt, int? defaultLimit = null)
+    {
+        InitializeDefaults(defaultLimit);
+        _event = evt;
+    }
+
 
     /// <summary>
     /// 初始化限制规则
@@ -38,6 +47,7 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
         foreach (TOpEnum op in Enum.GetValues(typeof(TOpEnum)))
         {
             _operationLimits[op] = defaultLimit;
+            _event?.Invoke(this, op);
         }
     }
 
@@ -49,6 +59,7 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
     public void SetLimit(TOpEnum operation, int? limit)
     {
         _operationLimits[operation] = limit;
+        _event?.Invoke(this, operation);
     }
 
     /// <summary>
@@ -60,6 +71,7 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
         if (!_operationLimits.TryGetValue(operation, out var current) || current == null) return false;
 
         _operationLimits[operation] = current + amount;
+        _event?.Invoke(this, operation);
         return true;
     }
 
@@ -72,6 +84,7 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
         if (!_operationLimits.TryGetValue(operation, out var current) || current == null) return false;
 
         _operationLimits[operation] = Math.Max(0, current.Value - amount);
+        _event?.Invoke(this, operation);
         return true;
     }
 
@@ -94,6 +107,7 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
         if (limit <= 0) return false;
 
         _operationLimits[operation] = limit - 1;
+        _event?.Invoke(this, operation);
         return true;
     }
 
@@ -110,17 +124,17 @@ public class OperationLimiterUtil<TOpEnum> where TOpEnum : struct, Enum
     /// <summary>
     /// 重置所有操作次数为初始限制值（需提前通过SetLimit设置）
     /// </summary>
-    public void ResetAll()
-    {
-        var keys = new List<TOpEnum>(_operationLimits.Keys);
-        foreach (var op in keys)
-        {
-            // 重置时需要额外存储初始值（这里简化处理）
-            // 实际项目可将初始值存储在另一个字典
-            if (_operationLimits[op] != null)
-            {
-                // 实际应用需记录初始值，这里仅作演示
-            }
-        }
-    }
+    //public void ResetAll()
+    //{
+    //    var keys = new List<TOpEnum>(_operationLimits.Keys);
+    //    foreach (var op in keys)
+    //    {
+    //        // 重置时需要额外存储初始值（这里简化处理）
+    //        // 实际项目可将初始值存储在另一个字典
+    //        if (_operationLimits[op] != null)
+    //        {
+    //            // 实际应用需记录初始值，这里仅作演示
+    //        }
+    //    }
+    //}
 }

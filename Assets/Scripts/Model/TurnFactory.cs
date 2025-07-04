@@ -12,7 +12,7 @@ public static class TurnFactory
     public static FiveStatesTurn CreateFirstFiveStatesTurn(Battler activeBattler)
     {
         FiveStatesTurn turn = CreateFiveStatesTurn(activeBattler);
-        turn.StateMachine.CurrentState.ActionLimiterWithEvent.DecreaseLimit(ActionType.BattlerDrawCard,1);  //////
+        turn.StateMachine.CurrentState.ActionLimiter.DecreaseLimit(ActionType.BattlerDrawCard,1);  //////
         turn.TurnStateLimiter.DecreaseLimit(FiveStatesTurn.TurnStateType.Battle, 1);
         return turn;
     }

@@ -97,7 +97,7 @@ public class  BasicBattle : Battle  // 1v1 pve 随机先后手 轮流回合制
 
     public bool CheckActionLimited(ActionType type)
     {
-        return CurrentTurn.StateMachine.CurrentState.ActionLimiterWithEvent.CheckValid(type);
+        return CurrentTurn.StateMachine.CurrentState.ActionLimiter.CheckValid(type);
     }
 
     public void CurrentBattlerDrawCards(int count)
