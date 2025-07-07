@@ -18,7 +18,7 @@ public class TestSystem : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log("---debug key down---");
-            BattleManager.Instance.BattleModel.CurrentTurn.StateMachine.CurrentState.ActionLimiterWithEvent.IncreaseLimit(ActionType.BattlerDrawCard, 1);
+            BattleManager.Instance.BattleModel.CurrentTurn.StateMachine.CurrentState.ActionLimiter.IncreaseLimit(ActionType.BattlerDrawCard, 1);
         }
         // key 12345 represent 5 TurnStates
         if (Input.GetKeyDown(KeyCode.Alpha1))

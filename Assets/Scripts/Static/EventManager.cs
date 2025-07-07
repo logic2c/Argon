@@ -35,6 +35,7 @@ public static class BattleEventManager
     }
     public struct TurnEvents
     {
+        public static UnityAction<OperationLimiterUtil<FiveStatesTurn.TurnStateType>, FiveStatesTurn.TurnStateType> OnTurnStateLimitChanged;
         public static UnityAction<OperationLimiterUtil<ActionType>, ActionType> OnTurnStateActionLimitChanged;
     }
     public struct TurnStartStateEvents

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public abstract class Turn
 {
@@ -23,17 +24,17 @@ public class FiveStatesTurn : Turn
         End
     }
     public TurnStateMachine StateMachine { get; private set; }
-    public OperationLimiterUtil<TurnStateType> TurnStateLimiter { get; private set; } = new OperationLimiterUtil<TurnStateType>();
+    public OperationLimiterUtil<TurnStateType> TurnStateLimiter { get; private set; }
 
     public FiveStatesTurn(Battler battler, TurnBaseState initialState) : base(battler)
     {
+        TurnStateLimiter = new OperationLimiterUtil<TurnStateType>(BattleEventManager.TurnEvents.OnTurnStateLimitChanged, 1);
         StateMachine = new TurnStateMachine(initialState);
-        TurnStateLimiter.InitializeDefaults(1);
     }
 
     public bool CurrentBattlerTryDrawCard()
     {
-        var limiter = StateMachine.CurrentState.ActionLimiterWithEvent;
+        var limiter = StateMachine.CurrentState.ActionLimiter;
         // if both action limit and draw pile are valid, then draw a card
         if (limiter.CheckValid(ActionType.BattlerDrawCard) && ActiveBattler.CheckCanDrawCard())
         {
@@ -111,72 +112,10 @@ public enum ActionType
 }
 public abstract class TurnBaseState
 {
-    private OperationLimiterUtil<ActionType> ActionLimiter { get; set; } = new OperationLimiterUtil<ActionType>();
-    public OperationLimiterUtilWithEventDecorator ActionLimiterWithEvent { get; private set; }
-    public class OperationLimiterUtilWithEventDecorator
-    {
-        private readonly OperationLimiterUtil<ActionType> _baseLimiter;
-        public OperationLimiterUtilWithEventDecorator(OperationLimiterUtil<ActionType> baseLimiter)
-        {
-            _baseLimiter = baseLimiter;
-        }
-        public void InitializeDefaults(int? defaultLimit = null)
-        {
-            _baseLimiter.InitializeDefaults(defaultLimit);
-        }
-
-        public void SetLimit(ActionType actionType, int? limit)
-        {
-            _baseLimiter.SetLimit(actionType, limit);
-            BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
-        }
-        public bool IncreaseLimit(ActionType actionType, int amount)
-        {
-            bool result = _baseLimiter.IncreaseLimit(actionType, amount);
-            if (result)
-            {
-                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
-            }
-            return result;
-        }
-        public bool DecreaseLimit(ActionType actionType, int amount)
-        {
-            bool result = _baseLimiter.DecreaseLimit(actionType, amount);
-            if (result)
-            {
-                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
-            }
-            return result;
-        }
-        public bool CheckValid(ActionType actionType)
-        {
-            return _baseLimiter.CheckValid(actionType);
-        }
-
-        public bool TryUse(ActionType actionType)
-        {
-            bool result = _baseLimiter.TryUse(actionType);
-            if (result)
-            {
-                BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged?.Invoke(_baseLimiter, actionType);
-            }
-            return result;
-        }
-        public int? GetRemainingCount(ActionType actionType)
-        {
-            return _baseLimiter.GetRemainingCount(actionType);
-        }
-        public void ResetAll()
-        {
-            _baseLimiter.ResetAll();
-            //BattleEventManager.TurnEvents.OnTurnStateActionLimitReset?.Invoke(_baseLimiter);
-        }
-    }
-
+    public OperationLimiterUtil<ActionType> ActionLimiter { get; set; }
     public TurnBaseState()
     {
-        ActionLimiter.InitializeDefaults();
-        ActionLimiterWithEvent = new OperationLimiterUtilWithEventDecorator(ActionLimiter);
+        ActionLimiter = new OperationLimiterUtil<ActionType>(BattleEventManager.TurnEvents.OnTurnStateActionLimitChanged, null);
     }
     public abstract void EnterState();
     public abstract void UpdateState();
@@ -187,7 +126,7 @@ public class TurnStartState : TurnBaseState
 {
     public TurnStartState() : base()
     {
-        ActionLimiterWithEvent.SetLimit(ActionType.BattlerDrawCard, 1);
+        ActionLimiter.SetLimit(ActionType.BattlerDrawCard, 1);
     }
 
     public override void EnterState()

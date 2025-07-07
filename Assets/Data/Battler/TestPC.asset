@@ -13,5 +13,14 @@ MonoBehaviour:
   m_Name: TestPC
   m_EditorClassIdentifier: 
   battlerName: TestPC
-  Deck: []
+  Deck:
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
+  - {fileID: 11400000, guid: 09fd97e175fd5f94faa091b17088648e, type: 2}
   maxHealth: 0
