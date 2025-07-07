@@ -9,34 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-<<<<<<<< HEAD:Assets/Data/Cards/奥数愚蠢.asset
-  m_Script: {fileID: 11500000, guid: 9638cacbe13a5a94696e2bf3d51f7555, type: 3}
-  m_Name: "\u5965\u6570\u611A\u8822"
-  m_EditorClassIdentifier: 
-  race: 0
-  cardName: "\u5965\u6570\u611A\u8822"
-  icon: {fileID: 0}
-  cost: 1
-  description: 
-  group: 00000000
-  effects:
-  - rid: 1164232710380060674
-  spellType: 2
-  references:
-    version: 2
-    RefIds:
-    - rid: 1164232710380060674
-      type: {class: DrawCardEffect, ns: , asm: Assembly-CSharp}
-      data:
-        drawAmount: 2
-========
   m_Script: {fileID: 11500000, guid: b2756e51a668a644b8496a3e5e763f33, type: 3}
   m_Name: "\u517D\u4EBAG"
   m_EditorClassIdentifier: 
   race: 13
   cardName: "\u517D\u4EBAG"
   icon: {fileID: 0}
-  cost: 0
+  cost: 2
   description: "[\u5F3A\u529B\u7684\u517D\u4EBA]"
   group: 
   effects: []
@@ -47,4 +26,3 @@ MonoBehaviour:
   references:
     version: 2
     RefIds: []
->>>>>>>> 90b80912903e9b38c6b1369bf932330bc8b9fed2:Assets/Data/Cards/Monsters/Werebeast/兽人G.asset
