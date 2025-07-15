@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9638cacbe13a5a94696e2bf3d51f7555, type: 3}
   m_Name: "\u7231\u4E4BNPC"
   m_EditorClassIdentifier: 
-  race: 13
+  cardRace: 13
   cardName: "\u7231\u4E4BNPC"
   icon: {fileID: 0}
   cost: 1
@@ -25,8 +25,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
     - rid: 5347629307263188998
       type: {class: SpecialSummonCardEffect, ns: , asm: Assembly-CSharp}
       data:
+        condition:
+          rid: -2
         source: 0
         specialsummonCondition: 

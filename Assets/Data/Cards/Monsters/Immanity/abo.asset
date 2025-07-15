@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2756e51a668a644b8496a3e5e763f33, type: 3}
   m_Name: abo
   m_EditorClassIdentifier: 
-  race: 15
+  cardRace: 15
   cardName: abo
   icon: {fileID: 0}
   cost: 7
